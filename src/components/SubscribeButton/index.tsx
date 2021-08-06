@@ -1,38 +1,35 @@
-import { signIn, useSession } from 'next-auth/client'
-import { useRouter } from 'next/dist/client/router'
-import { api } from '../../services/api'
-import { getStripeJs } from '../../services/stripe-js'
-import styles from './styles.module.scss'
+import { signIn, useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
-interface SubscribeButtonProps {
-  priceId: string;
-}
+import { api } from '../../services/api';
+import { getStripeJs } from '../../services/stripe-js';
+import styles from './styles.module.scss';
 
-export function SubscribeButton({ priceId }: SubscribeButtonProps) {
-  const [ session ] = useSession()
-  const { push } = useRouter()
+export function SubscribeButton() {
+  const [session] = useSession();
+  const router = useRouter();
 
   async function handleSubscribe() {
-    if(!session) {
-      signIn('github')
-      return
+    if (!session) {
+      signIn('github');
+      return;
     }
 
-    if(session.activeSubscription) {
-      push('/posts')
+    if (session.activeSubscription) {
+      router.push('/posts');
       return;
     }
 
     try {
-      const response = await api.post('/subscribe')
+      const response = await api.post('/subscribe');
 
       const { sessionId } = response.data;
 
-      const stripe = await getStripeJs()
+      const stripe = await getStripeJs();
 
-      await stripe.redirectToCheckout({ sessionId })
+      await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     }
   }
 
@@ -44,5 +41,5 @@ export function SubscribeButton({ priceId }: SubscribeButtonProps) {
     >
       Inscrever-se
     </button>
-  )
+  );
 }

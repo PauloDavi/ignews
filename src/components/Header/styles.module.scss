@@ -29,11 +29,11 @@
       }
 
       transition: color 0.2s;
-      
+
       &:hover {
         color: var(--white);
       }
-      
+
       &.active {
         color: var(--white);
         font-weight: bold;
