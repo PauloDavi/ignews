@@ -1,13 +1,11 @@
-import Stripe from 'stripe'
-import packageInfo from '../../package.json'
+import Stripe from 'stripe';
 
-export const stripe = new Stripe(
-  process.env.STRIPE_API_KEY,
-  {
-    apiVersion: '2020-08-27',
-    appInfo: {
-      name: 'igNews',
-      version: packageInfo.version,
-    }
-  }
-)
+import packageInfo from '../../package.json';
+
+export const stripe = new Stripe(process.env.STRIPE_API_KEY, {
+  apiVersion: '2020-08-27',
+  appInfo: {
+    name: 'igNews',
+    version: packageInfo.version,
+  },
+});
